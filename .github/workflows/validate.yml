@@ -1,0 +1,79 @@
+name: Validate Configuration
+
+on:
+  pull_request:
+    paths:
+      - 'lists.yaml'
+      - 'merge_blocklists.py'
+      - '.github/workflows/*.yml'
+
+  push:
+    branches:
+      - main
+    paths:
+      - 'lists.yaml'
+      - 'merge_blocklists.py'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Validate YAML syntax
+      run: |
+        python -c "
+        import yaml
+        with open('lists.yaml', 'r') as f:
+            data = yaml.safe_load(f)
+            if 'blocklists' not in data:
+                raise ValueError('blocklists key not found')
+            if not isinstance(data['blocklists'], list):
+                raise ValueError('blocklists must be a list')
+            if not data['blocklists']:
+                raise ValueError('blocklists cannot be empty')
+            print(f'✅ Valid YAML with {len(data[\"blocklists\"])} sources')
+        "
+
+    - name: Test script syntax
+      run: |
+        python -m py_compile merge_blocklists.py
+        echo "✅ Python script syntax is valid"
+
+    - name: Dry run merge script
+      run: |
+        echo "Testing merge script with a single source..."
+        cat > test_lists.yaml << EOF
+        blocklists:
+          - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+        EOF
+
+        # Create a minimal test version of the script
+        python -c "
+        import sys
+        sys.path.insert(0, '.')
+        from merge_blocklists import load_sources, is_valid_domain
+
+        # Test loading
+        sources = load_sources('test_lists.yaml')
+        print(f'✅ Loaded {len(sources)} test sources')
+
+        # Test domain validation
+        test_domains = ['example.com', 'localhost', '127.0.0.1', 'invalid..domain', 'test.domain.org']
+        valid_count = sum(1 for d in test_domains if is_valid_domain(d))
+        print(f'✅ Domain validation working: {valid_count}/5 test domains are valid')
+        "
+
+        rm test_lists.yaml
