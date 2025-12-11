@@ -1,5 +1,5 @@
 # DNS Block List - Domain names only
-# Generated on: 2025-12-09T03:11:45.799227
+# Generated on: 2025-12-11T03:17:16.665648
 # Total domains: 171788
 
 0-230-23.rest
