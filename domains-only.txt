@@ -1,5 +1,5 @@
 # DNS Block List - Domain names only
-# Generated on: 2026-06-27T05:44:12.808865
+# Generated on: 2026-06-29T06:26:01.356935
 # Total domains: 170138
 
 0-ll1xpl-sasa7-web.d6rbpf.cfd
