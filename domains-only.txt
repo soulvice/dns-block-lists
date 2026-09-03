@@ -1,5 +1,5 @@
 # DNS Block List - Domain names only
-# Generated on: 2026-09-01T06:55:07.319610
+# Generated on: 2026-09-03T06:37:05.928442
 # Total domains: 165334
 
 0-ilxrc-w285.p9bckp.sbs
