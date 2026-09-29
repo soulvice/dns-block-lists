@@ -1,5 +1,5 @@
 # DNS Block List - Merged from multiple sources
-# Generated on: 2026-09-27T07:16:02.653664
+# Generated on: 2026-09-29T07:37:22.833710
 # Total domains: 161909
 #
 # Sources merged:
