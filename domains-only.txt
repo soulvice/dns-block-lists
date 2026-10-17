@@ -1,5 +1,5 @@
 # DNS Block List - Domain names only
-# Generated on: 2026-10-15T06:38:33.666301
+# Generated on: 2026-10-17T06:20:58.219135
 # Total domains: 160928
 
 0.0.0.0.creative.hpyrdr.com
